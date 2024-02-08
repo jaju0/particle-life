@@ -234,11 +234,15 @@ f(d_{ij}, m_{ij}, r_{ij}, k_{ij}, q_{ij}) = \Biggl\{ \begin{array}{ll} -\frac{q_
 
 The graph of this function looks as follows for $k_{ij} \in \mathbb{R}^+$:
 
-<img alt="relative-force-function-positive" src="./images/relative-force-function-positive.png" style="width: 100%; max-width: 600px" />
+<div align="center">
+    <img alt="relative-force-function-positive" src="./images/relative-force-function-positive.png" style="width: 100%; max-width: 600px" />
+</div>
 
 and for $k_{ij} \in \mathbb{R}^-$:
 
-<img alt="relative-force-function-positive" src="./images/relative-force-function-negative.png" style="width: 100%; max-width: 600px" />
+<div align="center">
+    <img alt="relative-force-function-positive" src="./images/relative-force-function-negative.png" style="width: 100%; max-width: 600px" />
+</div>
 
 ## Getting started
 
