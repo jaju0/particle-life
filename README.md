@@ -69,13 +69,17 @@ Let $\mathbb{R}^{2n_{p}}$ be the vector space of our simulation at time $t$, whe
 
 We define
 
-$$\Psi_{t} := \begin{bmatrix}\psi_{t11} & \psi_{t12} \\ \vdots & \vdots \\ \psi_{tn_{p}1} & \psi_{tn_{p}2}\end{bmatrix} \in \mathbb{R}^{2n_{p}}$$
+```math
+\Psi_{t} := \begin{bmatrix}\psi_{t11} & \psi_{t12} \\ \vdots & \vdots \\ \psi_{tn_{p}1} & \psi_{tn_{p}2}\end{bmatrix} \in \mathbb{R}^{2n_{p}}
+```
 
 as the particle position matrix containing the position of every particle at time $t$ and
 
-$$\Nu_{t} := \begin{bmatrix}\nu_{t11} & \nu_{t12} \\ \vdots & \vdots \\ \nu_{tn_{p}1} & \nu_{tn_{p}2}\end{bmatrix} \in \mathbb{R}^{2n_{p}}$$
+```math
+$$N_{t} := \begin{bmatrix}\nu_{t11} & \nu_{t12} \\ \vdots & \vdots \\ \nu_{tn_{p}1} & \nu_{tn_{p}2}\end{bmatrix} \in \mathbb{R}^{2n_{p}}$$
+```
 
-as the particle velocity matrix containing the velocity of every particle at time $t$ used as a parameter to calculate the position matrix for the next time step $t+1$. To solve our simulation problem, we have to find $\Psi$ for every time step $t$ to obtain all particle positions. If we define $n_{f} \in \mathbb{N}^+ \setminus \{0, 1\}$ as the number of frames our simulation consists of, then $t \in [1, n_{f}]$. Therefore, we suppose $n_{f} = +\infin$ for real-time rendering if the user would never exit the program.
+as the particle velocity matrix containing the velocity of every particle at time $t$ used as a parameter to calculate the position matrix for the next time step $t+1$. To solve our simulation problem, we have to find $\Psi$ for every time step $t$ to obtain all particle positions. If we define $n_{f} \in \mathbb{N}^+ \setminus \{0, 1\}$ as the number of frames our simulation consists of, then $t \in [1, n_{f}]$. Therefore, we suppose $n_{f} = +\infty$ for real-time rendering if the user would never exit the program.
 
 To obtain our particle positions, we have to consider two scenarios:
 
@@ -84,12 +88,18 @@ To obtain our particle positions, we have to consider two scenarios:
 
 For $t = 1$ we set each entry of the particle position matrix to a uniformly distributed random number
 
-$$\psi_{1i1} \sim U(0, w)$$
-$$\psi_{1i2} \sim U(0, h)$$
+```math
+\psi_{1i1} \sim U(0, w)
+```
+```math
+\psi_{1i2} \sim U(0, h)
+```
 
 and the particle velocity matrix to a null matrix
 
-$$\Nu_{1} = \begin{bmatrix}0\end{bmatrix}_{2 \times n_{p}}$$
+```math
+N_{1} = \begin{bmatrix}0\end{bmatrix}_{2 \times n_{p}}
+```
 
 where $w \in \mathbb{R}^+$ is the width  and $h \in \mathbb{R}^+$ is the height of our observation field with its origin vector
 
@@ -100,26 +110,33 @@ and
 $$i \in [1, n_{p}]$$
 
 For $t > 1$ we have to define two functions:
-$$v: \Nu_{t-1} \mapsto \Nu_{t}$$
-$$p: (\Psi_{t-1}, \Nu_{t}) \mapsto \Psi_{t}$$
+
+```math
+v: N_{t-1} \mapsto N_{t}
+```
+```math
+p: (\Psi_{t-1}, N_{t}) \mapsto \Psi_{t}
+```
 
 where $v$ is the velocity function at time $t$ and $p$ is the position function at time $t$.
 
 Let
 
-$$F_{t} := \begin{bmatrix}f_{t11} & f_{t12} \\ \vdots & \vdots \\ f_{tn_{p}1} & f_{tn_{p}2}\end{bmatrix} \in \mathbb{R}^{2n_{p}}$$
+```math
+F_{t} := \begin{bmatrix}f_{t11} & f_{t12} \\ \vdots & \vdots \\ f_{tn_{p}1} & f_{tn_{p}2}\end{bmatrix} \in \mathbb{R}^{2n_{p}}
+```
 
 be the directional force matrix at time $t$ where each row $\vec{f_{ti}}$ represents the directional force vector applied to its corresponding particle position $\vec{\psi}_{ti-1}$. We describe the derivation of this directional force matrix just below ([Directional Force Matrix](#directional-force-matrix)).
 
 We can calculate the particle velocity matrix at time $t$ now with
 
-$$\Nu_{t} = \mu\Nu_{t-1} + \zeta F_{t}$$
+$$N_{t} = \mu N_{t-1} + \zeta F_{t}$$
 
 where $\mu \in (0, 1)$ is defined as the friction and $\zeta \in \mathbb{R}$ is defined as the damping factor.
 
 Further, the particle position matrix at time $t$ can now be calculated with
 
-$$\Psi_{t} = \Psi_{t-1} + \delta \Nu_{t}$$
+$$\Psi_{t} = \Psi_{t-1} + \delta N_{t}$$
 
 where $\delta \in \mathbb{R}^+$ is defined as the time difference between two time steps.
 
@@ -129,66 +146,91 @@ Let $n(\vec{x}) = \frac{\vec{x}}{\lVert\vec{x}\rVert}, \forall \lVert \vec{x} \r
 
 To get the directional force matrix we firstly let
 
-$$\Delta_{t} := \begin{bmatrix}n(\vec{\Psi_{t1}} - \vec{\Psi_{t1}}) & \dots & n(\vec{\Psi_{tn_p}} - \vec{\Psi_{t1}}) \\ \vdots & \ddots & \vdots \\ n(\vec{\Psi_{t1}} - \vec{\Psi_{tn_p}}) & \dots & n(\vec{\Psi_{tn_p}} - \vec{\Psi_{tn_p}})\end{bmatrix}_{n_p \times n_p} \in \mathbb{R}^{2n_pn_p}$$
+```math
+\Delta_{t} := \begin{bmatrix}n(\vec{\Psi_{t1}} - \vec{\Psi_{t1}}) & \dots & n(\vec{\Psi_{tn_p}} - \vec{\Psi_{t1}}) \\ \vdots & \ddots & \vdots \\ n(\vec{\Psi_{t1}} - \vec{\Psi_{tn_p}}) & \dots & n(\vec{\Psi_{tn_p}} - \vec{\Psi_{tn_p}})\end{bmatrix}_{n_p \times n_p} \in \mathbb{R}^{2n_pn_p}
+```
 
 be the force direction matrix at time $t$ and
 
-$$\Phi_{t} := \begin{bmatrix}\phi_{t11} & \dots & \phi_{t1n_{p}}  \\ \vdots & \ddots & \vdots \\ \phi_{t_{n_p}1} & \dots & \phi_{n_pn_p}\end{bmatrix}_{n_p \times n_p} \in \mathbb{R}^{n_pn_p}$$
+```math
+\Phi_{t} := \begin{bmatrix}\phi_{t11} & \dots & \phi_{t1n_{p}}  \\ \vdots & \ddots & \vdots \\ \phi_{t_{n_p}1} & \dots & \phi_{n_pn_p}\end{bmatrix}_{n_p \times n_p} \in \mathbb{R}^{n_pn_p}
+```
 
 be the uncumulated force matrix at time $t$ where each $\phi_{tij}$ is defined as the force that particle $j \in [1, n_p]$ exerts on particle $i \in [1, n_p]$ at time $t$ which is determined by the function $\lVert \vec{\Psi_{tj}} - \vec{\Psi_{ti}} \rVert \mapsto \phi_{tij}$ that maps the distance between the two particle positions onto the relative force. We describe the relative force function below ([Relative Force Function](#relative-force-function)).
 
 We define
 
-$$\Rho_t := \Delta_t \odot \Phi_t \in \mathbb{R}^{2n_pn_p}$$
+```math
+P_t := \Delta_t \odot \Phi_t \in \mathbb{R}^{2n_pn_p}
+```
 
 as the uncumulated directional force matrix. It is the Hadamard Product of the force direction matrix and the uncumulated force matrix.
 
 Lastly, to get the (cumulated) directional force matrix we define
 
-$$F_t := \begin{bmatrix}\sum_{j = 1}^{j \le n_p} \vec{\Rho_{t1j}} \\ \vdots \\ \sum_{j = 1}^{j \le n_p} \vec{\Rho_{tn_pj}} \end{bmatrix} \in \mathbb{R}^{2n_p}$$
-
+```math
+F_t := \begin{bmatrix} \sum_{j \in [1, n_p]} \vec{P_{t1j}} \\ \vdots \\ \sum_{j \in [1, n_p]} \vec{P_{tn_pj}} \end{bmatrix} \in \mathbb{R}^{2n_p}
+```
 
 #### Relative Force Function
 
 We define the relative force function as the map
 
-$$f: \lVert \vec{\Psi_{tj}} - \vec{\Psi_{ti}} \rVert \mapsto \phi_{tij}$$
+```math
+f: \lVert \vec{\Psi_{tj}} - \vec{\Psi_{ti}} \rVert \mapsto \phi_{tij}
+```
 
 where the magnitude of the vector pointing from the position of particle $i \in [1, n_p]$ to the position of particle $j \in [1, n_p]$ is mapped onto the relative force.
 
 To formulate the function, we first define the parameter
 
-$$d_{tij} := \lVert \vec{\Psi_{tj}} - \vec{\Psi_{ti}} \rVert$$
+```math
+d_{tij} := \lVert \vec{\Psi_{tj}} - \vec{\Psi_{ti}} \rVert
+```
 
 as the actual distance between particle $i$ and particle $j$ at time $t$ and
 
-$$m_{ij} \in \mathbb{R} \setminus \{0\}$$
+```math
+m_{ij} \in \mathbb{R} \setminus \{0\}
+```
 
 as the minimum distance particle $i$ is rejecting particle $j$ with a repulsive force and
 
-$$k_{ij} \in \mathbb{R}$$
+```math
+k_{ij} \in \mathbb{R}
+```
 
 as the maximum force with whose particle $i$ is attracted to particle $j$ and
 
-$$r_{ij} \in \mathbb{R} \setminus \{0\}$$
+```math
+r_{ij} \in \mathbb{R} \setminus \{0\}
+```
 
 as the radius at which
 
-$$f(d_{ij}) = k_{ij}$$
+```math
+f(d_{ij}) = k_{ij}
+```
 
 and
 
-$$a \in \mathbb{R}^+$$
+```math
+a \in \mathbb{R}^+
+```
 
 as the repulsive force factor and
 
-$$q_{ij} := -\lvert ak_{ij} \rvert \in \mathbb{R}^{-}$$
+```math
+q_{ij} := -\lvert ak_{ij} \rvert \in \mathbb{R}^{-}
+```
 
 as the maximum repulsive force particle $j$ exerts on particle $i$.
 
 With these parameters the function can now be expressed as:
 
-$$f(d_{ij}, m_{ij}, r_{ij}, k_{ij}, q_{ij}) = \Biggl\{ \begin{array}{ll} -\frac{q_{ij}}{m_{ij}}d_{ij} + q_{ij} & \text{ if } d_{ij} \le m_{ij} \\ \frac{k_{ij}}{r_{ij} - m_{ij}}d_{ij} - \frac{k_{ij}m_{ij}}{r_{ij} - m_{ij}} & \text{ if } d_{ij} > m_{ij} \wedge d_{ij} \le r_{ij} \\ -\frac{k_{ij}}{2r_{ij} - m_{ij}} + k_{ij} & \text{ if } d_{ij} > r_{ij}i \wedge d_{ij} \le 2r_{ij} - m_{ij} \\ 0 & \text{ else } \end{array}$$
+```math
+f(d_{ij}, m_{ij}, r_{ij}, k_{ij}, q_{ij}) = \Biggl\{ \begin{array}{ll} -\frac{q_{ij}}{m_{ij}}d_{ij} + q_{ij} & \text{ if } d_{ij} \le m_{ij} \\ \frac{k_{ij}}{r_{ij} - m_{ij}}d_{ij} - \frac{k_{ij}m_{ij}}{r_{ij} - m_{ij}} & \text{ if } d_{ij} > m_{ij} \wedge d_{ij} \le r_{ij} \\ -\frac{k_{ij}}{2r_{ij} - m_{ij}} + k_{ij} & \text{ if } d_{ij} > r_{ij}i \wedge d_{ij} \le 2r_{ij} - m_{ij} \\ 0 & \text{ else } \end{array}
+```
 
 The graph of this function looks as follows for $k_{ij} \in \mathbb{R}^+$:
 
